@@ -1,0 +1,801 @@
+﻿<!doctype html>
+<html lang="fr">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width,initial-scale=1">
+  <title>Campus — Portail pédagogique</title>
+  <style>
+    :root {
+      --ink: #162d2b;
+      --green: #215f50;
+      --muted: #73827c;
+      --line: #e1e7e2;
+      --danger: #d75252;
+      --shadow: 0 18px 40px rgba(13, 36, 33, 0.08);
+    }
+    * { box-sizing: border-box; }
+    body {
+      margin: 0;
+      background: #f7f9f6;
+      color: var(--ink);
+      font-family: Arial, sans-serif;
+    }
+    button, input, textarea, select { font: inherit; }
+    button { cursor: pointer; }
+    header {
+      height: 90px;
+      border-bottom: 1px solid var(--line);
+      background: #fff;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 0 6%;
+    }
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      font-weight: 800;
+      font-size: 24px;
+    }
+    .mark {
+      width: 38px;
+      height: 38px;
+      border-radius: 12px;
+      background: var(--green);
+      color: #fff;
+      display: grid;
+      place-items: center;
+      font-size: 22px;
+    }
+    .tag {
+      display: block;
+      font-size: 12px;
+      color: var(--muted);
+      font-weight: 400;
+      margin-top: 2px;
+    }
+    .pill {
+      border: 1px solid var(--line);
+      border-radius: 999px;
+      padding: 9px 14px;
+      color: #53675f;
+      font-size: 12px;
+    }
+    .layout {
+      max-width: 1180px;
+      margin: 64px auto;
+      display: grid;
+      grid-template-columns: 1.2fr 1fr;
+      gap: 80px;
+      padding: 0 30px;
+      align-items: center;
+    }
+    .eyebrow {
+      font-size: 11px;
+      letter-spacing: 2px;
+      text-transform: uppercase;
+      color: var(--green);
+      font-weight: 700;
+    }
+    h1 {
+      margin: 22px 0;
+      font-size: 52px;
+      line-height: 1.1;
+      letter-spacing: -2px;
+    }
+    h1 span { color: var(--green); }
+    .intro { max-width: 430px; color: #6d7d75; line-height: 1.8; font-size: 16px; }
+    .illustration {
+      position: relative;
+      margin-top: 24px;
+      height: 210px;
+      background: #edf3ed;
+      border-radius: 20px;
+      overflow: hidden;
+      padding: 26px;
+    }
+    .circle {
+      position: absolute;
+      width: 210px;
+      height: 210px;
+      border-radius: 50%;
+      background: #d3e1c8;
+      right: -30px;
+      top: 34px;
+    }
+    .paper {
+      position: relative;
+      width: 240px;
+      background: #fff;
+      border-radius: 12px;
+      padding: 20px;
+      box-shadow: 0 12px 26px rgba(23, 46, 44, 0.08);
+      transform: rotate(-5deg);
+    }
+    .line {
+      height: 7px;
+      background: #e7ece7;
+      border-radius: 8px;
+      margin-top: 12px;
+    }
+    .book {
+      position: absolute;
+      right: 25px;
+      bottom: 18px;
+      width: 110px;
+      height: 130px;
+      background: var(--green);
+      color: #fff;
+      border-radius: 5px 14px 14px 5px;
+      padding: 20px;
+      box-shadow: -7px 0 #bfd3a7;
+      transform: rotate(9deg);
+      font-size: 12px;
+    }
+    .card {
+      background: rgba(255,255,255,0.9);
+      border: 1px solid var(--line);
+      border-radius: 28px;
+      padding: 28px;
+      box-shadow: var(--shadow);
+    }
+    .card h2 { margin: 0 0 8px; font-size: 34px; }
+    .sub { color: var(--muted); margin: 0 0 20px; }
+    label {
+      display: block;
+      margin: 18px 0 8px;
+      font-size: 14px;
+      font-weight: 700;
+    }
+    input, textarea, select {
+      width: 100%;
+      border: 1px solid var(--line);
+      border-radius: 14px;
+      background: #fff;
+      color: var(--ink);
+      padding: 14px 16px;
+      outline: none;
+    }
+    input:focus, textarea:focus, select:focus {
+      border-color: rgba(33,95,80,0.5);
+      box-shadow: 0 0 0 4px rgba(33,95,80,0.08);
+    }
+    .password { display: flex; gap: 10px; }
+    .password input { flex: 1; }
+    .show {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 12px;
+      min-width: 90px;
+      padding: 13px 12px;
+    }
+    .primary, .outline, .small {
+      border: none;
+      border-radius: 14px;
+      font-weight: 700;
+      transition: transform 0.15s ease;
+    }
+    .primary {
+      width: 100%;
+      margin-top: 22px;
+      background: var(--green);
+      color: white;
+      padding: 15px 18px;
+    }
+    .outline {
+      background: transparent;
+      border: 1px solid rgba(33,95,80,0.3);
+      color: var(--green);
+      padding: 12px 16px;
+    }
+    .small {
+      background: var(--green);
+      color: white;
+      padding: 10px 14px;
+      justify-self: end;
+    }
+    .error { min-height: 22px; margin-top: 16px; color: var(--danger); font-weight: 700; }
+    .demo {
+      background: #f6f8f5;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 18px 16px;
+      margin-top: 26px;
+    }
+    .choices { display: flex; gap: 10px; margin-top: 14px; }
+    .choices button {
+      flex: 1;
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 12px;
+      padding: 10px 8px;
+    }
+    .dash {
+      max-width: 1200px;
+      margin: 36px auto 60px;
+      padding: 0 24px;
+    }
+    .dash-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 20px;
+      margin-bottom: 18px;
+    }
+    .welcome {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      padding: 24px 26px;
+      margin-bottom: 22px;
+    }
+    .welcome b { display: block; margin-bottom: 6px; font-size: 18px; }
+    .welcome p { margin: 0; color: var(--muted); }
+    .workspace {
+      display: grid;
+      grid-template-columns: 1fr 1.2fr;
+      gap: 24px;
+      align-items: start;
+    }
+    .panel {
+      background: #fff;
+      border: 1px solid var(--line);
+      border-radius: 20px;
+      box-shadow: var(--shadow);
+      padding: 24px;
+    }
+    .panel-head {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .panel h3 { margin: 0; font-size: 22px; }
+    .row { display: grid; gap: 8px; margin-bottom: 16px; }
+    .row label {
+      margin: 0;
+      font-size: 13px;
+      color: var(--muted);
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .document-list, .ticket-list { display: grid; gap: 16px; }
+    .doc-group {
+      background: #fafcf9;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px;
+    }
+    .doc-group h4 { margin: 0 0 12px; font-size: 14px; letter-spacing: 0.08em; text-transform: uppercase; color: var(--green); }
+    .doc-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 12px;
+      align-items: center;
+      border-top: 1px solid var(--line);
+      padding: 12px 0;
+    }
+    .doc-item:first-of-type { border-top: none; padding-top: 0; }
+    .doc-meta strong {
+      display: block;
+      font-size: 15px;
+      margin-bottom: 4px;
+    }
+    .doc-meta span { color: var(--muted); font-size: 12px; }
+    .download-link { color: var(--green); text-decoration: none; font-weight: 700; }
+    .ticket-card {
+      background: #fafcf9;
+      border: 1px solid var(--line);
+      border-radius: 16px;
+      padding: 16px;
+    }
+    .ticket-top {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 12px;
+    }
+    .ticket-top h4 { margin: 0; }
+    .ticket-badge {
+      display: inline-block;
+      padding: 6px 10px;
+      border-radius: 999px;
+      background: rgba(33,95,80,0.08);
+      color: var(--green);
+      font-size: 11px;
+      font-weight: 700;
+    }
+    .ticket-messages { display: grid; gap: 8px; margin-bottom: 12px; }
+    .message-row {
+      border: 1px solid var(--line);
+      background: #fff;
+      border-radius: 12px;
+      padding: 10px 12px;
+      line-height: 1.5;
+      font-size: 14px;
+    }
+    .message-row.me { background: rgba(33,95,80,0.04); }
+    .message-row small {
+      display: block;
+      font-size: 11px;
+      color: var(--muted);
+      margin-bottom: 4px;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+    }
+    .reply-box {
+      display: grid;
+      gap: 8px;
+      margin-top: 10px;
+    }
+    .message {
+      min-height: 24px;
+      margin-top: 12px;
+      font-size: 14px;
+      font-weight: 700;
+      color: var(--green);
+    }
+    .message.error { color: var(--danger); }
+    .empty {
+      text-align: center;
+      color: var(--muted);
+      padding: 26px 20px;
+      border: 1px dashed var(--line);
+      border-radius: 14px;
+      background: #fafcf9;
+    }
+    .account { margin-top: 18px; color: var(--muted); font-weight: 700; }
+    footer {
+      border-top: 1px solid var(--line);
+      background: rgba(255,255,255,0.75);
+      color: var(--muted);
+      text-align: center;
+      padding: 18px 12px 24px;
+      display: flex;
+      justify-content: center;
+      gap: 24px;
+      flex-wrap: wrap;
+    }
+    @media (max-width: 960px) {
+      .layout, .workspace { grid-template-columns: 1fr; }
+      .dash-head { align-items: flex-start; flex-direction: column; }
+      h1 { font-size: 42px; }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="brand">
+      <div class="mark">c</div>
+      <div>campus<span class="tag">Portail pédagogique universitaire</span></div>
+    </div>
+    <span class="pill">Votre espace d’apprentissage</span>
+  </header>
+
+  <main id="login" class="layout">
+    <section>
+      <div class="eyebrow">Apprendre · Partager · Progresser</div>
+      <h1>Le savoir se partage.<br><span>Votre campus aussi.</span></h1>
+      <p class="intro">Un espace commun pour les professeurs et les étudiants. Retrouvez votre univers pédagogique, simplement.</p>
+      <div class="illustration" aria-hidden="true">
+        <div class="circle"></div>
+        <div class="paper">
+          <span class="eyebrow">Votre prochain chapitre</span>
+          <div class="line"></div>
+          <div class="line" style="width:80%"></div>
+          <div class="line" style="width:60%"></div>
+          <p style="font-size:12px;color:#58725d;margin-bottom:0">Chaque connexion, un nouveau départ.</p>
+        </div>
+        <div class="book">CAMPUS<br><br><b style="font-size:20px">Le goût<br>d’apprendre.</b></div>
+      </div>
+      <p style="font-size:12px;color:#7c887f;margin-top:21px">Un portail, deux espaces. Une même envie d’apprendre.</p>
+    </section>
+
+    <section class="card">
+      <h2>Heureux de vous retrouver.</h2>
+      <p class="sub">Connectez-vous pour accéder à votre espace.</p>
+      <form id="form">
+        <label for="email">Adresse email</label>
+        <input id="email" type="email" autocomplete="username" placeholder="prenom@universite.ma" required>
+
+        <label for="password">Mot de passe</label>
+        <div class="password">
+          <input id="password" type="password" autocomplete="current-password" placeholder="Votre mot de passe" required>
+          <button class="show" type="button" id="show">Afficher</button>
+        </div>
+
+        <button class="primary" id="submit" type="submit">Se connecter &nbsp; →</button>
+        <div id="error" class="error" role="alert"></div>
+      </form>
+
+      <div class="demo">
+        <p><b>Essayez les deux espaces</b><br><span id="mode">Démo interactive · aucune donnée réelle.</span></p>
+        <div class="choices">
+          <button type="button" data-account="professeur">Compte professeur</button>
+          <button type="button" data-account="etudiant">Compte étudiant</button>
+        </div>
+        <p style="margin:10px 0 0">Mot de passe de test : <b>Campus2026!</b></p>
+      </div>
+    </section>
+  </main>
+
+  <main id="dashboard" class="dash" hidden>
+    <div class="dash-head">
+      <div>
+        <div class="eyebrow" id="role"></div>
+        <h1 id="greeting"></h1>
+      </div>
+      <button class="outline" id="logout" type="button">Se déconnecter</button>
+    </div>
+
+    <div class="welcome">
+      <b>Bienvenue dans votre espace pédagogique.</b>
+      <p id="welcome-text"></p>
+    </div>
+
+    <div class="workspace">
+      <section id="prof-upload-panel" class="panel" hidden>
+        <div class="panel-head">
+          <h3>Publier un cours ou un TD</h3>
+        </div>
+
+        <form id="uploadForm">
+          <div class="row">
+            <label for="docCategory">Type de document</label>
+            <select id="docCategory">
+              <option value="cours">Cours</option>
+              <option value="td">TD / travaux dirigés</option>
+            </select>
+          </div>
+
+          <div class="row">
+            <label for="docTitle">Titre</label>
+            <input id="docTitle" type="text" placeholder="Ex : Chapitre 2 - Algèbre">
+          </div>
+
+          <div class="row">
+            <label for="docFile">Fichier</label>
+            <input id="docFile" type="file" accept=".pdf,.doc,.docx,.ppt,.pptx,.png,.jpg,.jpeg,.zip" required>
+          </div>
+
+          <button class="primary" type="submit">Téléverser</button>
+        </form>
+        <div id="uploadMessage" class="message"></div>
+      </section>
+
+      <section class="panel">
+        <div class="panel-head">
+          <h3>Documents disponibles</h3>
+          <small id="docCount">0 document</small>
+        </div>
+        <div id="documentsList" class="document-list"></div>
+      </section>
+
+      <section class="panel" style="grid-column: 1 / -1;">
+        <div class="panel-head">
+          <h3>Tickets de contact</h3>
+        </div>
+
+        <form id="ticketForm" hidden>
+          <div class="row">
+            <label for="ticketSubject">Objet</label>
+            <input id="ticketSubject" type="text" placeholder="Ex : Problème sur le cours de Maths">
+          </div>
+
+          <div class="row">
+            <label for="ticketMessage">Message</label>
+            <textarea id="ticketMessage" rows="4" placeholder="Décrivez votre demande ou votre problème..."></textarea>
+          </div>
+
+          <button class="primary" type="submit">Envoyer le ticket</button>
+        </form>
+        <div id="ticketMessageStatus" class="message"></div>
+        <div id="ticketsList" class="ticket-list"></div>
+      </section>
+    </div>
+
+    <p class="account" id="account"></p>
+  </main>
+
+  <footer>
+    <span>Campus · Portail pédagogique universitaire</span>
+    <span>US1 — Connexion et accès aux espaces</span>
+  </footer>
+
+  <script>
+    const $ = (id) => document.getElementById(id);
+    let server = false;
+    let csrf = '';
+    let state = { user: null, documents: [], tickets: [] };
+
+    function render(user) {
+      state.user = user;
+      $('login').hidden = !!user;
+      $('dashboard').hidden = !user;
+      if (user) {
+        const isProf = user.role === 'professeur';
+        $('role').textContent = 'Espace ' + (isProf ? 'professeur' : 'étudiant');
+        $('greeting').textContent = 'Bonjour, ' + user.nom + '.';
+        $('welcome-text').textContent = isProf
+          ? 'Votre espace pour partager les cours, les TD et répondre aux demandes des étudiants.'
+          : 'Votre espace pour consulter les supports, suivre les ressources et contacter votre professeur.';
+        $('account').textContent = 'Connecté avec ' + user.email;
+        $('prof-upload-panel').hidden = !isProf;
+        $('ticketForm').hidden = isProf;
+        loadDashboardData();
+      } else {
+        $('documentsList').innerHTML = '';
+        $('ticketsList').innerHTML = '';
+        $('uploadMessage').textContent = '';
+        $('ticketMessageStatus').textContent = '';
+      }
+    }
+
+    function setStatus(elementId, message, isError = false) {
+      const el = $(elementId);
+      if (!el) return;
+      el.textContent = message;
+      el.classList.toggle('error', isError);
+    }
+
+    async function fetchJson(url, options = {}) {
+      const response = await fetch(url, options);
+      const text = await response.text();
+      let payload = {};
+      try { payload = text ? JSON.parse(text) : {}; } catch (e) { payload = {}; }
+      if (!response.ok) throw new Error(payload.error || 'Erreur serveur.');
+      return payload;
+    }
+
+    function renderDocuments() {
+      const docs = state.documents || [];
+      $('docCount').textContent = docs.length + (docs.length > 1 ? ' documents' : ' document');
+
+      if (!docs.length) {
+        $('documentsList').innerHTML = '<div class="empty">Aucun document publié pour le moment.</div>';
+        return;
+      }
+
+      const groups = { cours: [], td: [] };
+      docs.forEach(doc => groups[doc.category].push(doc));
+
+      const html = ['cours', 'td'].map(category => {
+        const items = groups[category];
+        if (!items.length) return '';
+        return `
+          <div class="doc-group">
+            <h4>${category === 'cours' ? 'Cours' : 'TD'}</h4>
+            ${items.map(doc => `
+              <div class="doc-item">
+                <div class="doc-meta">
+                  <strong>${doc.title}</strong>
+                  <span>${doc.filename} · ${doc.uploaded_by ? doc.uploaded_by.nom : 'Professeur'}</span>
+                </div>
+                <a class="download-link" href="/api/documents/${doc.id}/download" target="_blank" rel="noopener">Ouvrir</a>
+              </div>
+            `).join('')}
+          </div>
+        `;
+      }).join('');
+
+      $('documentsList').innerHTML = html;
+    }
+
+    function renderTickets() {
+      const tickets = state.tickets || [];
+      if (!tickets.length) {
+        $('ticketsList').innerHTML = '<div class="empty">Aucun ticket pour le moment.</div>';
+        return;
+      }
+
+      const userRole = state.user && state.user.role;
+      $('ticketsList').innerHTML = tickets.map(ticket => {
+        const messages = (ticket.messages || []).map(message => {
+          const fromMe = message.sender_role === userRole;
+          return `
+            <div class="message-row ${fromMe ? 'me' : ''}">
+              <small>${message.sender_role === 'professeur' ? 'Professeur' : 'Étudiant'} · ${new Date(message.created_at * 1000).toLocaleString('fr-FR', { day: '2-digit', month: '2-digit', year: 'numeric', hour: '2-digit', minute: '2-digit' })}</small>
+              ${message.message}
+            </div>
+          `;
+        }).join('');
+
+        const replyBox = userRole === 'professeur' ? `
+          <div class="reply-box">
+            <textarea data-ticket-reply="${ticket.id}" rows="3" placeholder="Répondre au ticket..."></textarea>
+            <button class="small" type="button" data-reply-id="${ticket.id}">Répondre</button>
+          </div>
+        ` : '';
+
+        return `
+          <article class="ticket-card">
+            <div class="ticket-top">
+              <h4>${ticket.subject}</h4>
+              <span class="ticket-badge">#${ticket.id}</span>
+            </div>
+            <div class="ticket-messages">${messages}</div>
+            ${replyBox}
+          </article>
+        `;
+      }).join('');
+    }
+
+    async function loadDashboardData() {
+      if (!state.user) return;
+      try {
+        const docsData = await fetchJson('/api/documents');
+        const ticketsData = await fetchJson('/api/tickets');
+        state.documents = docsData.documents || [];
+        state.tickets = ticketsData.tickets || [];
+        renderDocuments();
+        renderTickets();
+      } catch (e) {
+        $('documentsList').innerHTML = '<div class="empty">Impossible de charger les documents.</div>';
+        $('ticketsList').innerHTML = '<div class="empty">Impossible de charger les tickets.</div>';
+      }
+    }
+
+    document.querySelectorAll('[data-account]').forEach(button => {
+      button.onclick = () => {
+        $('email').value = button.dataset.account + '@campus.ma';
+        $('password').value = 'Campus2026!';
+        $('error').textContent = '';
+      };
+    });
+
+    $('show').onclick = () => {
+      const hidden = $('password').type === 'password';
+      $('password').type = hidden ? 'text' : 'password';
+      $('show').textContent = hidden ? 'Masquer' : 'Afficher';
+    };
+
+    async function init() {
+      try {
+        const response = await fetch('/api/session', { cache: 'no-store' });
+        if (response.ok && response.headers.get('content-type')?.includes('application/json')) {
+          const data = await response.json();
+          server = true;
+          csrf = data.csrf || '';
+          $('mode').textContent = 'Comptes de test locaux · validation par le serveur.';
+          render(data.user);
+          return;
+        }
+      } catch (e) {}
+      render(null);
+    }
+
+    $('form').onsubmit = async (event) => {
+      event.preventDefault();
+      $('error').textContent = '';
+      $('submit').disabled = true;
+      try {
+        let user;
+        const email = $('email').value.trim().toLowerCase();
+        const password = $('password').value;
+
+        if (server) {
+          const data = await fetchJson('/api/login', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrf },
+            body: JSON.stringify({ email, password })
+          });
+          user = data.user;
+          csrf = data.csrf || csrf;
+        } else {
+          const role = email === 'professeur@campus.ma' ? 'professeur' : email === 'etudiant@campus.ma' ? 'etudiant' : null;
+          if (!role || password !== 'Campus2026!') throw new Error('Email ou mot de passe incorrect.');
+          user = { role, email, nom: role === 'professeur' ? 'Professeur' : 'Étudiant' };
+        }
+
+        render(user);
+        $('password').value = '';
+      } catch (err) {
+        $('error').textContent = err.message || 'Connexion impossible.';
+      } finally {
+        $('submit').disabled = false;
+      }
+    };
+
+    $('logout').onclick = async () => {
+      try {
+        if (server) {
+          const data = await fetchJson('/api/logout', {
+            method: 'POST',
+            headers: { 'X-CSRF-Token': csrf }
+          });
+          csrf = data.csrf || csrf;
+        }
+        render(null);
+      } catch (e) {
+        alert('Déconnexion impossible. Réessayez.');
+      }
+    };
+
+    $('uploadForm').onsubmit = async (event) => {
+      event.preventDefault();
+      const file = $('docFile').files[0];
+      if (!file) {
+        setStatus('uploadMessage', 'Sélectionnez un fichier.', true);
+        return;
+      }
+
+      const reader = new FileReader();
+      reader.onload = async () => {
+        try {
+          const payload = {
+            category: $('docCategory').value,
+            title: $('docTitle').value.trim() || file.name,
+            filename: file.name,
+            mime: file.type || 'application/octet-stream',
+            content: reader.result.split(',')[1]
+          };
+          const data = await fetchJson('/api/upload', {
+            method: 'POST',
+            headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrf },
+            body: JSON.stringify(payload)
+          });
+          setStatus('uploadMessage', data.message || 'Document publié.', false);
+          $('uploadForm').reset();
+          await loadDashboardData();
+        } catch (err) {
+          setStatus('uploadMessage', err.message || 'Impossible de téléverser le document.', true);
+        }
+      };
+      reader.readAsDataURL(file);
+    };
+
+    $('ticketForm').onsubmit = async (event) => {
+      event.preventDefault();
+      const subject = $('ticketSubject').value.trim();
+      const message = $('ticketMessage').value.trim();
+      if (!subject || !message) {
+        setStatus('ticketMessageStatus', 'Renseignez l’objet et le message du ticket.', true);
+        return;
+      }
+      try {
+        const data = await fetchJson('/api/tickets', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrf },
+          body: JSON.stringify({ subject, message })
+        });
+        setStatus('ticketMessageStatus', data.message || 'Ticket envoyé.', false);
+        $('ticketForm').reset();
+        await loadDashboardData();
+      } catch (err) {
+        setStatus('ticketMessageStatus', err.message || 'Impossible d’envoyer le ticket.', true);
+      }
+    };
+
+    document.getElementById('ticketsList').addEventListener('click', async (event) => {
+      const button = event.target.closest('[data-reply-id]');
+      if (!button) return;
+      const ticketId = Number(button.dataset.replyId);
+      const textarea = document.querySelector(`[data-ticket-reply="${ticketId}"]`);
+      if (!textarea) return;
+      const message = textarea.value.trim();
+      if (!message) {
+        setStatus('ticketMessageStatus', 'Le message de réponse est vide.', true);
+        return;
+      }
+      try {
+        const data = await fetchJson('/api/tickets', {
+          method: 'POST',
+          headers: { 'Content-Type': 'application/json', 'X-CSRF-Token': csrf },
+          body: JSON.stringify({ ticket_id: ticketId, message })
+        });
+        textarea.value = '';
+        setStatus('ticketMessageStatus', data.message || 'Réponse envoyée.', false);
+        await loadDashboardData();
+      } catch (err) {
+        setStatus('ticketMessageStatus', err.message || 'Impossible d’envoyer la réponse.', true);
+      }
+    });
+
+    init();
+  </script>
+</body>
+</html>
